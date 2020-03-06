@@ -20,6 +20,7 @@ class SaleOrderLine(models.Model):
         return res
     
     def _get_sale_order_line_multiline_description_variants(self):
+        product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values')
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
         """When using no_variant attributes or is_custom values, the product
         itself is not sufficient to create the description: we need to add
@@ -31,7 +32,9 @@ class SaleOrderLine(models.Model):
         :rtype: string
         """
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            return pacv.attribute_value_id.attribute_id.name 
+            for padv in self.product_attribute_value_ids:
+                name += "\n" + padv.attribute_value_id.attribute_id.name + \
+                    ': ' + padv.attribute_value_id.name
 
         name = "\n"
 
