@@ -10,7 +10,7 @@ class SaleOrderLine(models.Model):
     @api.multi
     def _get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_sale(product)
-        return product.display_name + "\n" + self._get_sale_order_line_multiline_description_variants() + "\n" + product.description_sale
+        return self._get_sale_order_line_multiline_description_variants()
 
         return res
     
@@ -18,7 +18,9 @@ class SaleOrderLine(models.Model):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
             return ""
-            
+        
+        name = "\n"
+        
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
         
         # display the no_variant attributes, except those that are also
