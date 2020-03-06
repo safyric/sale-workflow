@@ -32,8 +32,11 @@ class SaleOrderLine(models.Model):
         :return: the description related to special variant attributes/values
         :rtype: string
         """
-        #if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-        #    return ""
+        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
+            for padv in self.product_attribute_value_ids:
+                return "\n" + padv.attribute_value_id.attribute_id.name + \
+                    ": " + padv.attribute_value_id.name
+            #return ""
 
         name = "\n"
 
