@@ -31,7 +31,7 @@ class SaleOrderLine(models.Model):
         :rtype: string
         """
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            return ""
+            return "1"
 
         name = "\n"
 
