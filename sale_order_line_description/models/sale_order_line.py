@@ -17,7 +17,8 @@ class SaleOrderLine(models.Model):
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
-        
+       
+        name = ""  
         # display the no_variant attributes, except those that are also
         # displayed by a custom (avoid duplicate)
         for no_variant_attribute_value in self.product_no_variant_attribute_value_ids.filtered(
