@@ -20,9 +20,6 @@ class SaleOrderLine(models.Model):
             for pacv in self.product_custom_attribute_value_ids:
                 name += "\n" + pacv.attribute_value_id.attribute_id.name + \
                     ': ' + pacv.attribute_value_id.name
-            return name  
-            
-        return "\n"
         
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
         
