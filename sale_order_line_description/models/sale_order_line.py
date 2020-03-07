@@ -6,9 +6,7 @@ from odoo import api, models
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
-    
-    product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attribute values')
-    
+        
     @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
@@ -16,6 +14,8 @@ class SaleOrderLine(models.Model):
         return product.display_name + "\n" + self._get_sale_order_line_multiline_description_variants() + "Additional info: " + product.description_sale
     
         return res
+    
+    product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attribute values')
     
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
