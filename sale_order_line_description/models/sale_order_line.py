@@ -5,9 +5,7 @@ from odoo import api, models
 
 
 class SaleOrderLine(models.Model):
-    _inherit = "sale.order.line"
-    
-    product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values')
+    _inherit = "sale.order.line"  
 
     @api.multi
     def _get_sale_order_line_multiline_description_sale(self, product):
