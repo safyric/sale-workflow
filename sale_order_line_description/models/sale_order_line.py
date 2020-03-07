@@ -20,11 +20,10 @@ class SaleOrderLine(models.Model):
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
+        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
+            return product_attribute_value_ids
+
         name = ""
-        
-        for padv in self.product_attribute_value_ids:
-            name += padv.attribute_value_id.attribute_id.name + \
-                ': ' + padv.attribute_value_id.nam + "\n"
         
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
