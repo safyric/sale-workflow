@@ -5,7 +5,9 @@ from odoo import api, models
 
 
 class SaleOrderLine(models.Model):
-    _inherit = "sale.order.line"  
+    _inherit = "sale.order.line"
+    
+    product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values')
 
     @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
@@ -17,19 +19,12 @@ class SaleOrderLine(models.Model):
     
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
-        """When using no_variant attributes or is_custom values, the product
-        itself is not sufficient to create the description: we need to add
-        information about those special attributes and values.
-        See note about `product_no_variant_attribute_value_ids` above the field
-        definition: this method is not reliable to recompute the description at
-        a later time, it should only be used initially.
-        :return: the description related to special variant attributes/values
-        :rtype: string
-        """
-        #if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-        #    return ""
 
         name = ""
+        
+        for padv in self.product_attribute_value_ids:
+            name += padv.attribute_value_id.attribute_id.name + \
+                ': ' + padv.attribute_value_id.name + "\n"
 
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
