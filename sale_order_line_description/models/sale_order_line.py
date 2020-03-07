@@ -1,7 +1,7 @@
 # Copyright 2013-15 Agile Business Group sagl (<http://www.agilebg.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class SaleOrderLine(models.Model):
@@ -14,6 +14,9 @@ class SaleOrderLine(models.Model):
         return product.display_name + "\n" + self._get_sale_order_line_multiline_description_variants() + "Additional info: " + "\n" + product.description_sale
     
         return res
+
+
+    product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values')
 
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
