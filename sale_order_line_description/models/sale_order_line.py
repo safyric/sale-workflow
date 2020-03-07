@@ -10,13 +10,8 @@ class SaleOrderLine(models.Model):
     @api.multi
     def _get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_sale(product)
-        """ Compute a default multiline description for this sales order line.
-        This method exists so it can be overridden in other modules to change how the default name is computed.
-        In general only the product is used to compute the name, and this method would not be necessary (we could directly override the method in product).
-        BUT in event_sale we need to know specifically the sales order line as well as the product to generate the name:
-            the product is not sufficient because we also need to know the event_id and the event_ticket_id (both which belong to the sale order line).
-        """
-        return product.display_name + self._get_sale_order_line_multiline_description_variants()
+
+        return self._get_sale_order_line_multiline_description_variants()
     
         return res
     
