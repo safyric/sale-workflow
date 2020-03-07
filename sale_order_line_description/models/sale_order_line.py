@@ -1,7 +1,7 @@
 # Copyright 2013-15 Agile Business Group sagl (<http://www.agilebg.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 
 class SaleOrderLine(models.Model):
@@ -20,15 +20,18 @@ class SaleOrderLine(models.Model):
         return res
 
 
+    product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attributes')
+
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
-        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            return ""
+        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:            
+            for attribute_value_with_variant in self.product_attribute_value_ids:
+                return attribute_value_with_variant.attribute_id.name + ': ' + attribute_value.name + "\n"
 
-        name = ""
+       name = ""
 
-        product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
+       product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
         # display the no_variant attributes, except those that are also
         # displayed by a custom (avoid duplicate)
