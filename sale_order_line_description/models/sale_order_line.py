@@ -14,18 +14,15 @@ class SaleOrderLine(models.Model):
         return product.display_name + "\n" + self._get_sale_order_line_multiline_description_variants() + "Additional info: " + product.description_sale
     
         return res
-    
-
-    product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values') 
 
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            return product_attribute_value_ids
+            return ""
 
         name = ""
-        
+
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
         # display the no_variant attributes, except those that are also
@@ -40,10 +37,6 @@ class SaleOrderLine(models.Model):
             name += pacv.attribute_value_id.attribute_id.name + \
                 ': ' + (pacv.custom_value or '').strip() + "\n"
 
-        for pacv in self.product_attribute_value_ids:
-            name += pacv.attribute_value_id.attribute_id.name + \
-                ': ' + pacv.attribute_value_id.name + "\n"
-            
         return name
-        
+
         return res1
