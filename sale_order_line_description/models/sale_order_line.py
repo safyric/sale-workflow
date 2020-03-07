@@ -9,7 +9,7 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
-        res = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_sale(product)
+        res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
 
         return product.display_name + "\n" + self._get_sale_order_line_multiline_description_variants() + "\n" + product.description_sale
     
