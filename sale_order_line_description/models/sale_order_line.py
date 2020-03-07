@@ -26,10 +26,10 @@ class SaleOrderLine(models.Model):
         :return: the description related to special variant attributes/values
         :rtype: string
         """
-        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            return ""
+        #if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
+        #    return ""
 
-        name = "\n"
+        #name = "\n"
 
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
@@ -38,12 +38,12 @@ class SaleOrderLine(models.Model):
         for no_variant_attribute_value in self.product_no_variant_attribute_value_ids.filtered(
             lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
         ):
-            name += "\n" + no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name
+            name += no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name + "\n"
 
         # display the is_custom values
         for pacv in self.product_custom_attribute_value_ids:
-            name += "\n" + pacv.attribute_value_id.attribute_id.name + \
-                ': ' + (pacv.custom_value or '').strip()
+            name += pacv.attribute_value_id.attribute_id.name + \
+                ': ' + (pacv.custom_value or '').strip() + "\n"
             
         return name
         
