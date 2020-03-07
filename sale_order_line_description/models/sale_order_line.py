@@ -22,7 +22,7 @@ class SaleOrderLine(models.Model):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            return ""
+            return product_attribute_value_ids
 
         name = ""
 
