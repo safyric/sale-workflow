@@ -7,7 +7,6 @@ from odoo import api, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
     
-    product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values')
 
     @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
@@ -20,11 +19,10 @@ class SaleOrderLine(models.Model):
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
+        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
+            return self.attribute_id.name
+
         name = ""
-        
-        for padv in self.product_attribute_value_ids:
-            name += padv.attribute_value_id.attribute_id.name + \
-                ': ' + padv.attribute_value_id.name + "\n"
 
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
