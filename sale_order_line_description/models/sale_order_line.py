@@ -15,8 +15,9 @@ class SaleOrderLine(models.Model):
     
         return res
     
-    product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attribute values')
-    
+
+    product_attribute_value_ids = fields.One2many('product.attribute.value', 'sale_order_line_id', string='User entered product attribute values') 
+
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
