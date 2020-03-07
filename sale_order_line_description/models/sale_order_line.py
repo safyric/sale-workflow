@@ -24,9 +24,7 @@ class SaleOrderLine(models.Model):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            for padv in product.attribute_value_ids:
-                return padv.attribute_value_id.attribute_id.name + \
-                    ': ' + padv.attribute_value_id.name + "\n"
+            return ""
 
         name = ""
 
