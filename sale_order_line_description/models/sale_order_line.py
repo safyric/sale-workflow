@@ -11,7 +11,11 @@ class SaleOrderLine(models.Model):
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
 
-        return product.display_name + "\n" + self._get_sale_order_line_multiline_description_variants() + "Additional info: " + "\n" + product.description_sale
+        return '[' + product.default_code + ']' \
+            + product.name + "\n"\
+            + self._get_sale_order_line_multiline_description_variants() \
+            + "Additional info: " + "\n" 
+            + product.description_sale
     
         return res
 
@@ -22,7 +26,7 @@ class SaleOrderLine(models.Model):
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
             for padv in product.attribute_value_ids:
                 return padv.attribute_value_id.attribute_id.name + \
-                    ': ' + pacv.attribute_value_id.name + "\n"
+                    ': ' + padv.attribute_value_id.name + "\n"
 
         name = ""
 
