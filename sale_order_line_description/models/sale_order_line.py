@@ -39,6 +39,10 @@ class SaleOrderLine(models.Model):
         for pacv in self.product_custom_attribute_value_ids:
             name += pacv.attribute_value_id.attribute_id.name + \
                 ': ' + (pacv.custom_value or '').strip() + "\n"
+
+        for pacv in self.product_attribute_value_ids:
+            name += pacv.attribute_value_id.attribute_id.name + \
+                ': ' + pacv.attribute_value_id.name + "\n"
             
         return name
         
