@@ -29,7 +29,7 @@ class SaleOrderLine(models.Model):
         #if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
         #    return ""
 
-        #name = "\n"
+        name = ""
 
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
