@@ -6,9 +6,9 @@ from odoo import api, models
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
+    
     product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attribute values')
     
-
     @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
@@ -20,13 +20,12 @@ class SaleOrderLine(models.Model):
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
 
-        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:
-            for padv in self.product_attribute_value_ids:
-                return padv.attribute_value_id.attribute_id.name + \
-                    ': ' + padv.attribute_value_id.name + "\n"
-
         name = ""
-
+        
+        for padv in self.product_attribute_value_ids:
+            name += padv.attribute_value_id.attribute_id.name + \
+                ': ' + padv.attribute_value_id.nam + "\n"
+        
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
         # display the no_variant attributes, except those that are also
