@@ -11,8 +11,7 @@ class SaleOrderLine(models.Model):
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
 
-        return '[' + product.default_code + ']' \
-            + product.name + "\n"\
+        return product.display_name + "\n"
             + self._get_sale_order_line_multiline_description_variants() \
             + "Additional info: " + "\n" 
             + product.description_sale
