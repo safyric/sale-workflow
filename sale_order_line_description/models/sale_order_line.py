@@ -7,7 +7,7 @@ from odoo import api, fields, models
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
         
-    @api.multi
+    @api.model
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
 
