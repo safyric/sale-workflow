@@ -6,31 +6,28 @@ from odoo import api, fields, models
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
-        
-    @api.model
+
+
+    @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
+        return '[' + product.default_code + ']' \
+            + "\n" + self._get_sale_order_line_multiline_description_variants() \
+            + "\n" + product.description_sale
 
-        return product.display_name + "\n"
-            + self._get_sale_order_line_multiline_description_variants() \
-            + "Additional info: " + "\n" 
-            + product.description_sale
-    
         return res
 
-
     product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attributes')
-
     def _get_sale_order_line_multiline_description_variants(self):
         res1 = super(SaleOrderLine, self)._get_sale_order_line_multiline_description_variants()
+        name = ""
 
-        if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:            
-            for attribute_value_with_variant in self.product_attribute_value_ids:
-                return attribute_value_with_variant.attribute_id.name + ': ' + attribute_value_with_variant.name + "\n"
+        product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
-       name = ""
-
-       product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
+        for attribute_value_with_variant in self.product_attribute_value_ids.filtered(
+            lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
+        ):
+            name += attribute_value_with_variant.attribute_id.name + ': ' + attribute_value_with_variant.name + "\n"
 
         # display the no_variant attributes, except those that are also
         # displayed by a custom (avoid duplicate)
@@ -42,8 +39,8 @@ class SaleOrderLine(models.Model):
         # display the is_custom values
         for pacv in self.product_custom_attribute_value_ids:
             name += pacv.attribute_value_id.attribute_id.name + \
-                ': ' + (pacv.custom_value or '').strip() + "\n"
+            ': ' + (pacv.custom_value or '').strip() + "\n"
 
         return name
 
-        return res1
+        return res1            
