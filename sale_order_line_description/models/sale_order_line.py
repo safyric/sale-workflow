@@ -10,12 +10,15 @@ class SaleOrderLine(models.Model):
 
     @api.multi
     def get_sale_order_line_multiline_description_sale(self, product):
-        res = super(SaleOrderLine, self).get_sale_order_line_multiline_description_sale(product)
+        if product.description_sale:
+            return '[' + product.default_code + ']' \
+                + "\n" + self._get_sale_order_line_multiline_description_variants() \
+                + product.description_sale
         return '[' + product.default_code + ']' \
-            + "\n" + self._get_sale_order_line_multiline_description_variants() \
-            + "\n" + product.description_sale
+            + "\n" + self._get_sale_order_line_multiline_description_variants()
 
         return res
+
 
     product_attribute_value_ids = fields.Many2many('product.attribute.value', string='Product attributes')
     def _get_sale_order_line_multiline_description_variants(self):
