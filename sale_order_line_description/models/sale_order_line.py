@@ -27,7 +27,7 @@ class SaleOrderLine(models.Model):
 
         if not self.product_custom_attribute_value_ids and not self.product_no_variant_attribute_value_ids:            
             for attribute_value_with_variant in self.product_attribute_value_ids:
-                return attribute_value_with_variant.attribute_id.name + ': ' + attribute_value.name + "\n"
+                return attribute_value_with_variant.attribute_id.name + ': ' + attribute_value_with_variant.name + "\n"
 
        name = ""
 
