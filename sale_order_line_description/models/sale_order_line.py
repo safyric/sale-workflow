@@ -31,6 +31,8 @@ class SaleOrderLine(models.Model):
         for attribute_value_with_variant in self.product_attribute_value_ids.filtered(
             lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
         ):
+            if (no_variant_attribute_value.attribute_id.code == "0") or (no_variant_attribute_value.attribute_id.code == "00"):
+                return ""
             name += attribute_value_with_variant.attribute_id.name + ': ' + attribute_value_with_variant.name + "\n"
 
         # display the no_variant attributes, except those that are also
