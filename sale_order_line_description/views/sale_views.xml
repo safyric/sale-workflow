@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_order_form" model="ir.ui.view">
-        <field name="name">sale.order.form</field>
+    <record id="view_order_form_remove_description" model="ir.ui.view">
+        <field name="name">sale.order.form.remove.description</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='name' and @widget='section_and_note_text']" position="replace" />
+            <xpath expr="//tree/field[@name='name' and @widget='section_and_note_text']" position="replace" />
         </field>
     </record>
 
