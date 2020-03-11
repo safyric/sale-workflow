@@ -31,7 +31,7 @@ class SaleOrderLine(models.Model):
         for attribute_value_with_variant in self.product_attribute_value_ids.filtered(
             lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
         ):
-            if (no_variant_attribute_value.attribute_id.code == "0") or (no_variant_attribute_value.attribute_id.code == "00"):
+            if (no_variant_attribute_value.code == "0") or (no_variant_attribute_value.code == "00"):
                 return ""
             name += attribute_value_with_variant.attribute_id.name + ': ' + attribute_value_with_variant.name + "\n"
 
@@ -40,7 +40,7 @@ class SaleOrderLine(models.Model):
         for no_variant_attribute_value in self.product_no_variant_attribute_value_ids.filtered(
             lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
         ):
-            if (no_variant_attribute_value.attribute_id.code == "0") or (no_variant_attribute_value.attribute_id.code == "00"):
+            if (no_variant_attribute_value.code == "0") or (no_variant_attribute_value.code == "00"):
                 return ""
             name += no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name + "\n"
 
