@@ -6,7 +6,7 @@
         <field name="model">sale.order.form</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//tree//field[@name='name']" position="replace" />
+            <xpath expr="//tree[@string='Sale Order Lines']//field[@name='name']" position="replace" />
             </xpath>
         </field>
     </record>
