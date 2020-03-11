@@ -38,7 +38,8 @@ class SaleOrderLine(models.Model):
         for no_variant_attribute_value in self.product_no_variant_attribute_value_ids.filtered(
             lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
         ):
-            name += no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name + "\n"
+            if no_variant_attribute_value.name != "":
+                name += no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name + "\n"
 
         # display the is_custom values
         for pacv in self.product_custom_attribute_value_ids:
