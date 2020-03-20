@@ -15,7 +15,7 @@ class SaleOrderLine(models.Model):
             return '[' + product.default_code + ']' \
                 + "\n" + self._get_sale_order_line_multiline_description_variants() \
                 + product.description_sale
-        return '[' + product.default_code + ']' \
+        return '[' + product.default_code + '] ' + product.name \
             + "\n" + self._get_sale_order_line_multiline_description_variants()
 
         return res
