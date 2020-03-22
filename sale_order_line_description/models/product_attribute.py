@@ -11,5 +11,5 @@ class ProductAttributeValue(models.Model):
     @api.multi
     def _variant_name(self, variable_attributes):
         res = super(ProductAttributeValue,self)._variant_name(variable_attributes)
-        return ", ".join([v.short_name for v in self if v.attribute_id in variable_attributes])
+        return ", ".join([v.short_name for v in self if v.short_name and v.attribute_id in variable_attributes])
         return res
