@@ -13,8 +13,8 @@
         "stock",
     ],
     "data": [
-        'views/sale_views.xml',
         'views/product_attribute_view.xml',
+        'views/sale_views.xml',
     ],
     "installable": True,
 }
