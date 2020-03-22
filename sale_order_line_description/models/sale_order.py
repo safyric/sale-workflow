@@ -3,6 +3,11 @@
 
 from odoo import api, fields, models
 
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
+
+    is_long_description = fields.Boolean('Order line long description', help="Is true if the sales order line is long full description.")
+    
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
