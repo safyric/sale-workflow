@@ -17,10 +17,10 @@ class SaleOrderLine(models.Model):
     def get_sale_order_line_multiline_description_sale(self, product):
         res = super(SaleOrderLine,self).get_sale_order_line_multiline_description_sale(product)
         if product.description_sale:
-            return '[' + product.default_code + ']' \
+            return product.display_name
                 + "\n" + self._get_sale_order_line_multiline_description_variants() \
                 + product.description_sale
-        return '[' + product.default_code + '] ' + product.name \
+        return product.display_name
             + "\n" + self._get_sale_order_line_multiline_description_variants()
 
         return res
