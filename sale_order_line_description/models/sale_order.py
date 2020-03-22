@@ -33,6 +33,8 @@ class SaleOrderLine(models.Model):
 
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
+        if self.order_id.is_long_description:
+            name += ", ".join([str(v.name) + str(v.attribute_id.name) for v in self if v.attribute_id in product_attribute_value_ids])
         for attribute_value_with_variant in self.product_attribute_value_ids.filtered(
             lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
         ):
