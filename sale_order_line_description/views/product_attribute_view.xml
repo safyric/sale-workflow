@@ -9,5 +9,16 @@
                 <field name="short_name"/>
             </field>
         </field>
-    </record>   
+    </record>
+
+    <record id="attribute_tree_view" model="ir.ui.view">
+        <field name="name">product.attribute.tree</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.attribute_tree_view" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="description"/>
+            </field>
+        </field>
+    </record>
 </odoo>
