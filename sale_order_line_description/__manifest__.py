@@ -9,6 +9,8 @@
     "license": "AGPL-3",
     "depends": [
         "sale",
+        "product",
+        "stock",
     ],
     "data": [
         'views/sale_views.xml',
