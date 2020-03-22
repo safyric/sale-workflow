@@ -20,7 +20,7 @@ class SaleOrderLine(models.Model):
             return product.display_name \
                 + "\n" + self._get_sale_order_line_multiline_description_variants() \
                 + product.description_sale
-        return product.display_name
+        return product.display_name \
             + "\n" + self._get_sale_order_line_multiline_description_variants()
 
         return res
