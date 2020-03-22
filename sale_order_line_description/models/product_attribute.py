@@ -6,7 +6,7 @@ from odoo import api, fields, models
 class ProductAttributeValue(models.Model):
     _inherit = "product.attribute.value"
 
-    short_name = fields.Char(string='Value', translate=True)
+    short_name = fields.Char(string='Short Name', translate=True)
 
     @api.multi
     def _variant_name(self, variable_attributes):
