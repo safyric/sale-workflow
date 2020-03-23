@@ -1,3 +1,4 @@
+
 # Copyright 2013-15 Agile Business Group sagl (<http://www.agilebg.com>)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
@@ -7,7 +8,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     is_long_description = fields.Boolean('Order Line Long Description', help="Is true if the sales order line is long full description.")
-    
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
@@ -21,7 +22,7 @@ class SaleOrderLine(models.Model):
                 + "\n" + self._get_sale_order_line_multiline_description_variants() \
                 + product.description_sale
         return product.display_name \
-            + "\n" + self._get_sale_order_line_multiline_description_variants()
+            + "\n" + self._get_sale_order_line_multiline_description_variants().strip(', ')
 
         return res
 
@@ -33,25 +34,33 @@ class SaleOrderLine(models.Model):
 
         product_attribute_with_is_custom = self.product_custom_attribute_value_ids.mapped('attribute_value_id.attribute_id')
 
-        if self.order_id.is_long_description:
-            name += ", ".join([str(v.name) + str(v.attribute_id.name) for v in self if v.attribute_id in product_attribute_value_ids])
-        for attribute_value_with_variant in self.product_attribute_value_ids.filtered(
-            lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
-        ):
-            name += attribute_value_with_variant.attribute_id.name + ': ' + attribute_value_with_variant.name + "\n"
 
-        # display the no_variant attributes, except those that are also
-        # displayed by a custom (avoid duplicate)
-        for no_variant_attribute_value in self.product_no_variant_attribute_value_ids.filtered(
-            lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
-        ):
-            name += no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name + "\n"
+        for attribute_value_with_variant in self.product_attribute_value_ids.filtered(
+                lambda ptav: ptav.attribute_id not in product_attribute_with_is_custom
+            ):
+            if self.order_id.is_long_description:
+                if no_variant_attribute_value.attribute_id.description and no_variant_attribute_value.attribute_id.is_reverse_description == False:
+                    name += no_variant_attribute_value.name + " " + no_variant_attribute_value.attribute_id.description + ", "
+                elif no_variant_attribute_value.attribute_id.description and no_variant_attribute_value.attribute_id.is_reverse_description == True:
+                    name += no_variant_attribute_value.attribute_id.description + " " + no_variant_attribute_value.name + ", "
+                else:
+                    name += no_variant_attribute_value.name + ", "
+            else:
+                name += no_variant_attribute_value.attribute_id.name + ': ' + no_variant_attribute_value.name + "\n"
 
         # display the is_custom values
         for pacv in self.product_custom_attribute_value_ids:
-            name += pacv.attribute_value_id.attribute_id.name + \
-            ': ' + (pacv.custom_value or '').strip() + "\n"
+            if self.order_id.is_long_description:
+                if pacv.attribute_value_id.description and pacv.attribute_value_id.is_reverse_description == False:
+                    name += (pacv.custom_value or '').strip() + " " + pacv.attribute_value_id.attribute_id.name + ", "
+                elif pacv.attribute_value_id.description and pacv.attribute_value_id.is_reverse_description == True:
+                    name += pacv.attribute_value_id.attribute_id.name + " " + (pacv.custom_value or '').strip() + ", "
+                else:
+                    name += (pacv.custom_value or '').strip() + ", "
+            else:
+                name += pacv.attribute_value_id.attribute_id.name + \
+                    ': ' + (pacv.custom_value or '').strip() + "\n"
 
         return name
 
-        return res1            
+        return res1
