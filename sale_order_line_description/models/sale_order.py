@@ -45,7 +45,7 @@ class SaleOrderLine(models.Model):
 
         # no_variant_attribute_value
         for pvav in self.product_no_variant_attribute_value_ids.filtered(
-            lambda pvav: pvav.attribute_id not in product_attribute_with_is_custom and pav.code != "0"
+            lambda pvav: pvav.attribute_id not in product_attribute_with_is_custom and pvav.code != "0"
         ):
             if self.order_id.is_long_description:
                 if pvav.attribute_id.description and pvav.attribute_id.is_reverse_description == False:
